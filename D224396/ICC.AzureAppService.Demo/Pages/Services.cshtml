@@ -1,0 +1,56 @@
+@page
+@model ServicesModel
+@{
+    ViewData["Title"] = "Azure Services";
+    Layout = "_Layout";
+}
+
+<section class="card">
+  <h1>Azure Services Used</h1>
+
+  <div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px">
+
+    <div class="card soft">
+      <h2>App Service</h2>
+      <p>Hosts the Razor Pages frontend (and minimal APIs) with .NET 8 on the Free tier. Provides a stable public URL for the demo and grading.</p>
+      <p>Also issues SAS tokens for secure client uploads and serves the HLS player page.</p>
+    </div>
+
+    <div class="card soft">
+      <h2>Azure Functions</h2>
+      <p>Blob-triggered functions process new uploads: validation, thumbnail generation, and orchestration of HLS transcodes.</p>
+      <p>Runs serverlessly—pay-per-execution—with simple scaling and low operational overhead.</p>
+    </div>
+
+    <div class="card soft">
+      <h2>Blob Storage</h2>
+      <p>Stores raw uploads and processed outputs (thumbnails, HLS variants, manifest). Access uses time-bound SAS URLs.</p>
+      <p>Folder strategy keeps assets grouped by videoId for simple cleanup and listing.</p>
+    </div>
+
+    <div class="card soft">
+      <h2>Cosmos DB</h2>
+      <p>Holds video metadata: title, owner, status, durations, paths, and analytics counters.</p>
+      <p>Flexible schema and global distribution if needed; fits the JSON-centric model.</p>
+    </div>
+
+    <div class="card soft">
+      <h2>Azure AD (Entra ID)</h2>
+      <p>Provides authentication/authorization for creator actions and admin tools.</p>
+      <p>Integrates with App Service and Functions; tokens secure management APIs.</p>
+    </div>
+
+    <div class="card soft">
+      <h2>Key Vault</h2>
+      <p>Stores secrets (connection strings, Cosmos keys). Accessed via managed identity.</p>
+      <p>Prevents secrets in code or config and simplifies rotation.</p>
+    </div>
+
+    <div class="card soft">
+      <h2>Application Insights</h2>
+      <p>Collects telemetry (requests, dependencies, function timings, failures) across the pipeline.</p>
+      <p>Used to watch costs/performance and to troubleshoot processing errors.</p>
+    </div>
+
+  </div>
+</section>

@@ -1,0 +1,61 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home";
+    Layout = "_Layout";
+}
+
+<div class="grid grid-2">
+  <!-- Left: Hero + Plan -->
+  <section class="card">
+    <h1>Serverless Video Sharing Platform</h1>
+    <p>
+      A clean, cost-aware implementation that demonstrates upload → process → stream using Azure.
+      The site runs on App Service (.NET 8) and outlines the semester project plan and design.
+    </p>
+
+    <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn" href="/Architecture">View Architecture</a>
+      <a class="btn ghost" href="/Services">Azure Services</a>
+      <a class="btn ghost" href="/Yoshay-22K4396">Grading URL</a>
+    </div>
+
+    <h2 style="margin-top:18px">Brief Plan (starts Week 2)</h2>
+    <ul style="padding-left:22px">
+      <li><strong>Week 2:</strong> Finalize scope & user stories; choose codecs/bitrates; repo setup.</li>
+      <li><strong>Week 4:</strong> UX wireframes + Razor pages; define API contracts for SAS + video status.</li>
+      <li><strong>Week 6:</strong> Blob containers & naming; stub Azure Function triggers (thumbnail, validate).</li>
+      <li><strong>Week 8:</strong> End-to-end mock: request SAS, upload sample, poll status, display list.</li>
+      <li><strong>Week 10:</strong> Processing pipeline draft (transcode variants, metadata schema).</li>
+      <li><strong>Week 12:</strong> Authn/authz draft (AAD), secure secrets with Key Vault; analytics events.</li>
+      <li><strong>Week 14:</strong> Cost/telemetry review (App Insights), polish UI, fix a11y.</li>
+      <li><strong>Week 16:</strong> Final demo & report; keep app live for grading.</li>
+    </ul>
+
+    <div class="kpis" style="margin-top:18px">
+      <div class="kpi"><div class="label">Runtime</div><div class="value">.NET 8 (LTS)</div></div>
+      <div class="kpi"><div class="label">Hosting</div><div class="value">App Service (F1)</div></div>
+      <div class="kpi"><div class="label">Region</div><div class="value">Southeast Asia</div></div>
+      <div class="kpi"><div class="label">Deploy</div><div class="value">Kudu Zip Push</div></div>
+    </div>
+  </section>
+
+  <!-- Right: Group -->
+  <aside class="card soft">
+    <h2>Group D · Team</h2>
+    <table class="table">
+      <tr><th>Leader</th><td><strong>Abdullah Ellahi (22K-4190)</strong></td></tr>
+    </table>
+    <h2 style="margin-top:12px">Members</h2>
+    <ul style="padding-left:22px">
+      <li>Abdullah Ellahi</li> 
+      <li>Ahmed Yoshay</li>
+      <li>Shozab Mehdi</li>
+      <li>Syed Ghazali Imam</li>
+      <li>Timotheus Ayub</li>
+      <li>Muhammad Hassan Khan</li>
+      <li>Shazaib Khan</li>
+      <!-- add/remove as needed -->
+    </ul>
+  </aside>
+</div>

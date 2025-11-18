@@ -1,0 +1,41 @@
+@{
+    var title = ViewData["Title"] as string ?? "Serverless Video – Azure App Service (.NET 8)";
+}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>@title</title>
+  <link rel="stylesheet" href="~/css/site.css" />
+</head>
+<body>
+
+  <!-- Top Nav -->
+  <nav class="nav">
+    <div class="nav-inner container" style="padding-top:12px;padding-bottom:12px">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <span>CloudStream</span>
+      </div>
+      <div class="nav-links">
+        <a href="/" class="@(Context.Request.Path.Value=="/" ? "active" : "")">Home</a>
+        <a href="/Architecture" class="@(Context.Request.Path.Value?.StartsWith("/Architecture")==true ? "active" : "")">Architecture</a>
+        <a href="/Services" class="@(Context.Request.Path.Value?.StartsWith("/Services")==true ? "active" : "")">Azure Services</a>
+      </div>
+      <span class="badge">Azure App Service · .NET 8</span>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container">
+      @RenderBody()
+    </div>
+  </main>
+
+  <footer class="footer">
+    © @DateTime.UtcNow.Year Ahmed Yoshay • 22K-4396 • Group D
+  </footer>
+
+</body>
+</html>

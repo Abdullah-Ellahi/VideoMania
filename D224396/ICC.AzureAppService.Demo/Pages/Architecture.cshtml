@@ -1,0 +1,32 @@
+@page
+@model ArchitectureModel
+@{
+    ViewData["Title"] = "Architecture";
+    Layout = "_Layout";
+}
+
+<section class="card">
+  <h1>High-Level Architecture</h1>
+  <p>
+    The platform follows a serverless processing pipeline. Users upload videos via the web app using
+    short-lived SAS URLs to <strong>Blob Storage</strong>. An <strong>Azure Function</strong> (Blob trigger)
+    validates the upload, extracts metadata, and kicks off processing to generate thumbnails and
+    HLS renditions (e.g., 480p/720p). Processed outputs and metadata are saved, and the player streams
+    using signed URLs. Telemetry is captured throughout for cost/perf monitoring.
+  </p>
+
+  <pre>
+// Request/Processing Flow (proposal-aligned)
+Client (Razor Pages UI)
+  → Get SAS from minimal API (App Service)
+  → Direct PUT to Azure Blob Storage (raw/<videoId>/<filename>)
+      └─ Blob Trigger (Azure Functions)
+          - Validate container, size, codec
+          - Generate thumbnail(s)
+          - Transcode to HLS variants (480p/720p) & manifest
+          - Persist metadata (title, owner, durations, paths) in Cosmos DB
+          - Mark video status: Processing → Live/Failed
+  → UI polls GET /api/videos/:id for status, then loads HLS manifest (signed URL)
+  → Application Insights logs: upload latencies, function duration, failures
+  </pre>
+</section>

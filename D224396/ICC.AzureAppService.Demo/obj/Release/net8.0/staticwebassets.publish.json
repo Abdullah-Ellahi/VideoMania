@@ -1,0 +1,39 @@
+{
+  "Version": 1,
+  "Hash": "5LTocVwsPzOZ/TxhArXCVS9+zA0KRklqUTq0RoNt73w=",
+  "Source": "ICC.AzureAppService.Demo",
+  "BasePath": "_content/ICC.AzureAppService.Demo",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ICC.AzureAppService.Demo\\wwwroot",
+      "Source": "ICC.AzureAppService.Demo",
+      "ContentRoot": "C:\\Users\\yosha\\Desktop\\icc-azure-appservice-assignment\\ICC.AzureAppService.Demo\\wwwroot\\",
+      "BasePath": "_content/ICC.AzureAppService.Demo",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "C:\\Users\\yosha\\Desktop\\icc-azure-appservice-assignment\\ICC.AzureAppService.Demo\\wwwroot\\css\\site.css",
+      "SourceId": "ICC.AzureAppService.Demo",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\yosha\\Desktop\\icc-azure-appservice-assignment\\ICC.AzureAppService.Demo\\wwwroot\\",
+      "BasePath": "_content/ICC.AzureAppService.Demo",
+      "RelativePath": "css/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\site.css"
+    }
+  ]
+}

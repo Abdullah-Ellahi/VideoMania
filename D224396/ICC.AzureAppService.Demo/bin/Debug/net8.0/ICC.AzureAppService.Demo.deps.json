@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v8.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v8.0": {
+      "ICC.AzureAppService.Demo/1.0.0": {
+        "runtime": {
+          "ICC.AzureAppService.Demo.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "ICC.AzureAppService.Demo/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
