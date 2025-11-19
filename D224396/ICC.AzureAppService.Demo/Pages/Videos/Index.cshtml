@@ -1,0 +1,63 @@
+@page
+@model ICC.AzureAppService.Demo.Pages.Videos.IndexModel
+@{
+    ViewData["Title"] = "Videos";
+    Layout = "_Layout";
+}
+
+<div class="videos-container">
+    <div class="videos-header">
+        <div>
+            <h1>Video Library</h1>
+            <p>Explore and discover amazing content</p>
+        </div>
+        <a href="/Videos/Upload" class="btn btn-primary">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                <polyline points="17 8 12 3 7 8"/>
+                <line x1="12" y1="3" x2="12" y2="15"/>
+            </svg>
+            Upload Video
+        </a>
+    </div>
+
+    @if(Model.Videos.Any())
+    {
+        <div class="videos-grid">
+            @foreach(var video in Model.Videos.OrderByDescending(v => v.UploadedAt))
+            {
+                <a href="/Videos/Details?id=@video.id" class="video-card">
+                    <div class="video-thumbnail">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="5 3 19 12 5 21 5 3"/>
+                        </svg>
+                        <div class="video-duration">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
+                                <polygon points="5 3 19 12 5 21 5 3"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="video-info">
+                        <h3 class="video-card-title">@video.Title</h3>
+                        <p class="video-author">@video.UserId</p>
+                        <div class="video-meta-row">
+                            <span>@video.UploadedAt.ToString("MMM dd, yyyy")</span>
+                        </div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="empty-state">
+            <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                <rect x="2" y="7" width="20" height="15" rx="2" ry="2"/>
+                <polyline points="17 2 12 7 7 2"/>
+            </svg>
+            <h2>No Videos Yet</h2>
+            <p>Be the first to upload a video and share your content!</p>
+            <a href="/Videos/Upload" class="btn btn-primary">Upload Your First Video</a>
+        </div>
+    }
+</div>

@@ -16,12 +16,14 @@
     <div class="nav-inner container" style="padding-top:12px;padding-bottom:12px">
       <div class="brand">
         <div class="logo" aria-hidden="true"></div>
-        <span>CloudStream</span>
+        <span>VideoMania</span>
       </div>
       <div class="nav-links">
         <a href="/" class="@(Context.Request.Path.Value=="/" ? "active" : "")">Home</a>
         <a href="/Architecture" class="@(Context.Request.Path.Value?.StartsWith("/Architecture")==true ? "active" : "")">Architecture</a>
         <a href="/Services" class="@(Context.Request.Path.Value?.StartsWith("/Services")==true ? "active" : "")">Azure Services</a>
+        <a href="/Videos" class="@(Context.Request.Path.Value?.StartsWith("/Videos")==true ? "active" : "")">Videos</a>
+        <a href="/Videos/Upload" class="@(Context.Request.Path.Value?.StartsWith("/Videos/Upload")==true ? "active" : "")">Upload Video</a>
       </div>
       <span class="badge">Azure App Service · .NET 8</span>
     </div>
@@ -34,7 +36,7 @@
   </main>
 
   <footer class="footer">
-    © @DateTime.UtcNow.Year Ahmed Yoshay • 22K-4396 • Group D
+    © @DateTime.UtcNow.Year VideoMania • Group D
   </footer>
 
 </body>
