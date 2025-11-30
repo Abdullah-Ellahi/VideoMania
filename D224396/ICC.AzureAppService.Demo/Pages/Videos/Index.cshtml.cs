@@ -16,7 +16,23 @@ namespace ICC.AzureAppService.Demo.Pages.Videos
 
         public async Task OnGetAsync()
         {
-            Videos = await _cosmosService.GetVideosAsync();
+            if (_cosmosService != null)
+            {
+                try
+                {
+                    Videos = await _cosmosService.GetVideosAsync();
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error fetching videos: {ex.Message}");
+                    Videos = new List<Video>();
+                }
+            }
+            else
+            {
+                // Development mode - show empty list
+                Videos = new List<Video>();
+            }
         }
     }
 }

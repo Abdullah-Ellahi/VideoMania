@@ -1312,24 +1312,31 @@
     ]
   },
   "packageFolders": {
-    "/Users/asani.io/.nuget/packages/": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/asani.io/Documents/abdullah_ellahi/VideoMania/D224396/ICC.AzureAppService.Demo/ICC.AzureAppService.Demo.csproj",
+      "projectUniqueName": "C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\ICC.AzureAppService.Demo.csproj",
       "projectName": "ICC.AzureAppService.Demo",
-      "projectPath": "/Users/asani.io/Documents/abdullah_ellahi/VideoMania/D224396/ICC.AzureAppService.Demo/ICC.AzureAppService.Demo.csproj",
-      "packagesPath": "/Users/asani.io/.nuget/packages/",
-      "outputPath": "/Users/asani.io/Documents/abdullah_ellahi/VideoMania/D224396/ICC.AzureAppService.Demo/obj/",
+      "projectPath": "C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\ICC.AzureAppService.Demo.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\obj\\",
       "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
       "configFilePaths": [
-        "/Users/asani.io/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -1347,7 +1354,8 @@
         "enableAudit": "true",
         "auditLevel": "low",
         "auditMode": "direct"
-      }
+      },
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0": {
@@ -1389,7 +1397,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/8.0.416/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

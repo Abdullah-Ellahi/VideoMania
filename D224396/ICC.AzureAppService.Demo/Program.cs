@@ -15,21 +15,37 @@ string usersContainer = cosmosConfig["UsersContainer"] ?? throw new InvalidOpera
 string videosContainer = cosmosConfig["VideosContainer"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:VideosContainer' is required.");
 string commentsContainer = cosmosConfig["CommentsContainer"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:CommentsContainer' is required.");
 
-builder.Services.AddSingleton(new CosmosDbService(
-    account,
-    key,
-    databaseName,
-    usersContainer,
-    videosContainer,
-    commentsContainer
-));
+try
+{
+    builder.Services.AddSingleton(new CosmosDbService(
+        account,
+        key,
+        databaseName,
+        usersContainer,
+        videosContainer,
+        commentsContainer
+    ));
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Warning: CosmosDb not available - {ex.Message}");
+    builder.Services.AddSingleton<CosmosDbService>(x => null);
+}
 
 // ✅ Register BlobStorageService as a singleton
 var blobConfig = builder.Configuration.GetSection("BlobStorage");
 string blobConnectionString = blobConfig["ConnectionString"] ?? throw new InvalidOperationException("Blob connection string missing");
 string blobContainerName = blobConfig["ContainerName"] ?? "videos";
 
-builder.Services.AddSingleton(new BlobStorageService(blobConnectionString, blobContainerName));
+try
+{
+    builder.Services.AddSingleton(new BlobStorageService(blobConnectionString, blobContainerName));
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"Warning: BlobStorage not available - {ex.Message}");
+    builder.Services.AddSingleton<BlobStorageService>(x => null);
+}
 
 // ✅ Add services (including the custom route) BEFORE Build()
 builder.Services

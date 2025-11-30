@@ -27,14 +27,28 @@ namespace ICC.AzureAppService.Demo.Pages.Videos
 
         public async Task OnGetAsync()
         {
-            if (!string.IsNullOrEmpty(id))
+            if (!string.IsNullOrEmpty(id) && _cosmosService != null)
             {
-                Video = await _cosmosService.GetVideoByIdAsync(id);
-                Comments = await _cosmosService.GetCommentsAsync(id);
-
-                if (Video != null)
+                try
                 {
-                    Video.Url = (await _blobService.GetReadSasUriAsync(Video.Url, TimeSpan.FromHours(24))).ToString();
+                    Video = await _cosmosService.GetVideoByIdAsync(id);
+                    Comments = await _cosmosService.GetCommentsAsync(id);
+
+                    if (Video != null && _blobService != null)
+                    {
+                        try
+                        {
+                            Video.Url = (await _blobService.GetReadSasUriAsync(Video.Url, TimeSpan.FromHours(24))).ToString();
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error generating SAS URI: {ex.Message}");
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error fetching video details: {ex.Message}");
                 }
             }
         }
@@ -42,57 +56,75 @@ namespace ICC.AzureAppService.Demo.Pages.Videos
         // FIXED: Method name must match the handler exactly (case-sensitive)
         public async Task<IActionResult> OnPostAddCommentAsync()
         {
-            if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(CommentText))
+            if (string.IsNullOrEmpty(id) || string.IsNullOrWhiteSpace(CommentText) || _cosmosService == null)
             {
                 return RedirectToPage(new { id = id });
             }
 
-            var comment = new Comment
+            try
             {
-                id = Guid.NewGuid().ToString(),
-                VideoId = id,
-                UserId = "Guest",
-                Text = CommentText.Trim(),
-                CreatedAt = DateTime.UtcNow
-            };
+                var comment = new Comment
+                {
+                    id = Guid.NewGuid().ToString(),
+                    VideoId = id,
+                    UserId = "Guest",
+                    Text = CommentText.Trim(),
+                    CreatedAt = DateTime.UtcNow
+                };
 
-            await _cosmosService.AddItemAsync(comment, "Comments");
-            
+                await _cosmosService.AddItemAsync(comment, "Comments");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error adding comment: {ex.Message}");
+            }
+
             return RedirectToPage(new { id = id });
-        }
-
-        // FIXED: Method name must match the handler exactly (case-sensitive)
+        }        // FIXED: Method name must match the handler exactly (case-sensitive)
         public async Task<IActionResult> OnPostDeleteVideoAsync()
         {
-            if (string.IsNullOrEmpty(id))
+            if (string.IsNullOrEmpty(id) || _cosmosService == null)
             {
                 return RedirectToPage("/Videos/Index");
             }
 
-            var video = await _cosmosService.GetVideoByIdAsync(id);
-            
-            if (video != null)
+            try
             {
-                try
+                var video = await _cosmosService.GetVideoByIdAsync(id);
+
+                if (video != null)
                 {
-                    // Delete all comments associated with this video
-                    var comments = await _cosmosService.GetCommentsAsync(id);
-                    foreach (var comment in comments)
+                    try
                     {
-                        await _cosmosService.DeleteCommentAsync(comment.id, comment.VideoId);
+                        // Delete all comments associated with this video
+                        var comments = await _cosmosService.GetCommentsAsync(id);
+                        foreach (var comment in comments)
+                        {
+                            if (!string.IsNullOrEmpty(comment?.id))
+                            {
+                                await _cosmosService.DeleteCommentAsync(comment.id, comment.VideoId);
+                            }
+                        }
+
+                        // Delete the blob from storage
+                        if (_blobService != null && !string.IsNullOrEmpty(video.Url))
+                        {
+                            await _blobService.DeleteBlobAsync(video.Url);
+                        }
+
+                        // Delete the video from Cosmos DB (must be last)
+                        await _cosmosService.DeleteVideoAsync(video.id, video.UserId);
                     }
-                    
-                    // Delete the blob from storage
-                    await _blobService.DeleteBlobAsync(video.Url);
-                    
-                    // Delete the video from Cosmos DB (must be last)
-                    await _cosmosService.DeleteVideoAsync(video.id, video.UserId);
+                    catch (Exception ex)
+                    {
+                        // Log the error if needed
+                        Console.WriteLine($"Error deleting video: {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    // Log the error if needed
-                    Console.WriteLine($"Error deleting video: {ex.Message}");
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error in delete video handler: {ex.Message}");
             }
 
             return RedirectToPage("/Videos/Index");

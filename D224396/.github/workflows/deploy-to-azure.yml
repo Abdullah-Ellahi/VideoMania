@@ -1,0 +1,47 @@
+name: Deploy to Azure
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Restore dependencies
+        run: dotnet restore D224396/ICC.AzureAppService.Demo/ICC.AzureAppService.Demo.csproj
+
+      - name: Build
+        run: dotnet build D224396/ICC.AzureAppService.Demo/ICC.AzureAppService.Demo.csproj --configuration Release
+
+      - name: Publish
+        run: dotnet publish D224396/ICC.AzureAppService.Demo/ICC.AzureAppService.Demo.csproj -c Release -o ./publish
+
+      - name: Deploy to Azure App Service
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: "videomania-appservice"
+          publish-profile: ${{ secrets.AZURE_APPSERVICE_PUBLISH_PROFILE }}
+          package: "./publish"
+
+      - name: Run Azure CLI commands
+        uses: azure/CLI@v1
+        with:
+          azcliversion: latest
+          inlineScript: |
+            az webapp config appsettings set \
+              --name videomania-appservice \
+              --resource-group videomania-rg \
+              --settings BLOB_STORAGE_CONNECTION_STRING="${{ secrets.BLOB_STORAGE_CONNECTION_STRING }}" \
+                         COSMOS_DB_ACCOUNT="${{ secrets.COSMOS_DB_ACCOUNT }}" \
+                         COSMOS_DB_KEY="${{ secrets.COSMOS_DB_KEY }}"
