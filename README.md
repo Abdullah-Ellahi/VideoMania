@@ -92,7 +92,7 @@ Update `local.settings.json` with your Azure Storage connection string:
   "Values": {
     "AzureWebJobsStorage": "YOUR_STORAGE_CONNECTION_STRING",
     "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
-    "videomaniadev98e1_STORAGE": "YOUR_STORAGE_CONNECTION_STRING"
+    "BLOB_STORAGE_CONNECTION_STRING": "YOUR_STORAGE_CONNECTION_STRING"
   }
 }
 ```
@@ -140,7 +140,7 @@ Configure the storage connection string in Azure:
 az functionapp config appsettings set `
   --name YOUR_FUNCTION_APP_NAME `
   --resource-group YOUR_RESOURCE_GROUP `
-  --settings "videomaniadev98e1_STORAGE=YOUR_STORAGE_CONNECTION_STRING"
+  --settings "BLOB_STORAGE_CONNECTION_STRING=YOUR_STORAGE_CONNECTION_STRING"
 ```
 
 ## Usage
@@ -191,7 +191,7 @@ Video processing completed successfully!
 [Function("VideoTrigger")]
 public async Task Run(
     [BlobTrigger("samples-workitems/{name}", 
-    Connection = "videomaniadev98e1_STORAGE")] Stream myBlob, 
+    Connection = "BLOB_STORAGE_CONNECTION_STRING")] Stream myBlob, 
     string name)
 {
     _logger.LogInformation("=== Video Upload Triggered ===");
@@ -275,7 +275,7 @@ public async Task ProcessVideoAsync(Stream videoStream, string fileName)
 
 ### Function Not Triggering
 
-1. **Check Application Settings**: Ensure `videomaniadev98e1_STORAGE` is configured
+1. **Check Application Settings**: Ensure `BLOB_STORAGE_CONNECTION_STRING` is configured
 2. **Verify Container Name**: Must be `samples-workitems`
 3. **Wait for Polling**: Consumption plan polls every 1-2 minutes
 4. **Check Logs**: Look for errors in Application Insights
