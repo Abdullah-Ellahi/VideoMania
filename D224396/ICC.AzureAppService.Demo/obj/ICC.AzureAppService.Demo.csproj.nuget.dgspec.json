@@ -51,6 +51,10 @@
               "target": "Package",
               "version": "[12.25.0, )"
             },
+            "Microsoft.ApplicationInsights.AspNetCore": {
+              "target": "Package",
+              "version": "[2.20.0, )"
+            },
             "Microsoft.Azure.Cosmos": {
               "target": "Package",
               "version": "[3.56.0-preview.0, )"

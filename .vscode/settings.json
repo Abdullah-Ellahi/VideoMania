@@ -3,5 +3,7 @@
   "azureFunctions.projectLanguage": "C#",
   "azureFunctions.projectRuntime": "~4",
   "debug.internalConsoleOptions": "neverOpen",
-  "azureFunctions.preDeployTask": "publish (functions)"
+  "azureFunctions.preDeployTask": "publish (functions)",
+  "appService.defaultWebAppToDeploy": "/subscriptions/44809015-f5ca-4908-9ba6-7bdc6693cd92/resourceGroups/videomania-dev/providers/Microsoft.Web/sites/Video-Mania",
+  "appService.deploySubpath": "D224396/ICC.AzureAppService.Demo/publish"
 }

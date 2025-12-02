@@ -72,7 +72,7 @@ func azure functionapp publish $FUNCTION_APP
 ## Pre-Deployment Checklist
 
 - [ ] Updated `local.settings.json` with connection strings
-- [ ] Created blob containers: `thumbnails`, `processed-videos`
+- [ ] Created blob containers: `thumbnails`, `videos`
 - [ ] Cosmos DB database `videomania` exists
 - [ ] Cosmos DB container `Videos` exists
 - [ ] Azure Function App created (or will be auto-created)

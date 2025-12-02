@@ -6,6 +6,11 @@ using Microsoft.AspNetCore.Http.Features;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
+// Application Insights: reads connection string from configuration or environment
+// Set `ApplicationInsights:ConnectionString` in appsettings or set
+// the `APPLICATIONINSIGHTS_CONNECTION_STRING` env var in Azure.
+builder.Services.AddApplicationInsightsTelemetry();
+
 builder.Services.AddRazorPages();
 builder.Services.AddControllers(); // ✅ You have this
 
