@@ -75,11 +75,11 @@ namespace ICC.AzureAppService.Demo.Controllers
                 var video = new Video
                 {
                     id = Guid.NewGuid().ToString(),
-                    UserId = "TestUser", // TODO: Replace with actual authenticated user
-                    Title = request.Title.Trim(),
-                    Description = request.Description?.Trim(),
-                    Url = blobName,
-                    UploadedAt = DateTime.UtcNow
+                    userId = "TestUser", // TODO: Replace with actual authenticated user
+                    title = request.Title.Trim(),
+                    description = request.Description?.Trim(),
+                    url = blobName,
+                    uploadedAt = DateTime.UtcNow
                 };
 
                 await _cosmosService.AddItemAsync(video, "Videos");
@@ -88,7 +88,7 @@ namespace ICC.AzureAppService.Demo.Controllers
                 return Ok(new 
                 { 
                     success = true,
-                    message = $"Video '{video.Title}' uploaded successfully!",
+                    message = $"Video '{video.title}' uploaded successfully!",
                     videoId = video.id,
                     blobName = blobName
                 });

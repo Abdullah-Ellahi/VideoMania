@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ICC.AzureAppService.Demo")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fb46b7318a0799166b7d2689cb6a89d48743ab9e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+04e4666e5c503781d90a902929849cf94ad84b81")]
 [assembly: System.Reflection.AssemblyProductAttribute("ICC.AzureAppService.Demo")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ICC.AzureAppService.Demo")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

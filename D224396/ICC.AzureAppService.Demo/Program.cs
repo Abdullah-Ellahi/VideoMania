@@ -33,14 +33,36 @@ else
 {
     try
     {
-        builder.Services.AddSingleton(new CosmosDbService(
-            account,
-            key,
-            databaseName,
-            usersContainer,
-            videosContainer,
-            commentsContainer
-        ));
+        // Register CosmosDbService with logger
+        builder.Services.AddSingleton<CosmosDbService>(sp =>
+        {
+            var logger = sp.GetRequiredService<ILogger<CosmosDbService>>();
+
+            if (string.IsNullOrEmpty(account) || string.IsNullOrEmpty(key))
+            {
+                Console.WriteLine("Warning: CosmosDb credentials not configured - using null service");
+                return null!;
+            }
+
+            try
+            {
+                return new CosmosDbService(
+                    account,
+                    key,
+                    databaseName,
+                    usersContainer,
+                    videosContainer,
+                    commentsContainer,
+                    logger   // 👈 THIS IS THE MISSING PARAMETER
+                );
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Warning: CosmosDb not available - {ex.Message}");
+                return null!;
+            }
+        });
+
     }
     catch (Exception ex)
     {

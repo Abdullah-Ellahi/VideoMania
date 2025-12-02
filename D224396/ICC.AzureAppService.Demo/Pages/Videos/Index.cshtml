@@ -24,7 +24,7 @@
     @if(Model.Videos.Any())
     {
         <div class="videos-grid">
-            @foreach(var video in Model.Videos.OrderByDescending(v => v.UploadedAt))
+            @foreach(var video in Model.Videos.OrderByDescending(v => v.uploadedAt))
             {
                 <a href="/Videos/Details?id=@video.id" class="video-card">
                     <div class="video-thumbnail">
@@ -38,10 +38,10 @@
                         </div>
                     </div>
                     <div class="video-info">
-                        <h3 class="video-card-title">@video.Title</h3>
-                        <p class="video-author">@video.UserId</p>
+                        <h3 class="video-card-title">@video.title</h3>
+                        <p class="video-author">@video.userId</p>
                         <div class="video-meta-row">
-                            <span>@video.UploadedAt.ToString("MMM dd, yyyy")</span>
+                            <span>@video.uploadedAt.ToString("MMM dd, yyyy")</span>
                         </div>
                     </div>
                 </a>

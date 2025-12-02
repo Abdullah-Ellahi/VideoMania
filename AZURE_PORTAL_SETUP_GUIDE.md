@@ -265,7 +265,7 @@ Cosmos DB stores video metadata and comments.
 | ------------- | ------------ |
 | Database id   | `VideoMania` |
 | Container id  | `Videos`     |
-| Partition key | `/UserId`    |
+| Partition key | `/userId`    |
 
 5. Click **OK**
 
@@ -275,7 +275,7 @@ Cosmos DB stores video metadata and comments.
 2. Fill in:
    - Database: `VideoMania` (select existing)
    - Container id: `Comments`
-   - Partition key: `/VideoId`
+   - Partition key: `/videoId`
 3. Click **OK**
 
 ### Step 3: Get Connection String

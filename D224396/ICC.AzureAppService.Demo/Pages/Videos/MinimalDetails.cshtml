@@ -1,0 +1,21 @@
+@page
+@model ICC.AzureAppService.Demo.Pages.Videos.DetailsModel
+
+<h1>Minimal Details Page</h1>
+<p>Video ID: @Model.id</p>
+<p>Video: @(Model.Video?.title ?? "NULL")</p>
+
+<h2>Test Comment Form</h2>
+<form method="post" asp-page-handler="AddComment">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.id" />
+    <textarea name="CommentText" required>Test comment</textarea>
+    <button type="submit">Submit Comment</button>
+</form>
+
+<h2>Test Delete Form</h2>
+<form method="post" asp-page-handler="DeleteVideo">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="@Model.id" />
+    <button type="submit">Delete Video</button>
+</form>

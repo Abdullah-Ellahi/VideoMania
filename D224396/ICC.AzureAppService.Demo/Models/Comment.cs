@@ -1,14 +1,25 @@
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
 
 namespace ICC.AzureAppService.Demo.Models
 {
     public class Comment
     {
         [BindProperty(SupportsGet = true)]
-        public string? id { get; set; }
-        required public string VideoId { get; set; }  // Partition key
-        required public string UserId { get; set; }
-        public string? Text { get; set; }
-        public DateTime CreatedAt { get; set; }
+        [JsonPropertyName("id")]
+        public string id { get; set; } = string.Empty;
+        
+        // IMPORTANT: This must match your Cosmos DB partition key path exactly
+        [JsonPropertyName("videoId")]  // For JSON serialization
+        public string videoId { get; set; } = string.Empty;  // Property name for C# code
+        
+        [JsonPropertyName("userId")]
+        public string userId { get; set; } = string.Empty;
+        
+        [JsonPropertyName("text")]
+        public string text { get; set; } = string.Empty;
+        
+        [JsonPropertyName("createdAt")]
+        public DateTime createdAt { get; set; }
     }
 }

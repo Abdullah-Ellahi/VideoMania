@@ -1,0 +1,20 @@
+@page
+@model ICC.AzureAppService.Demo.Pages.Videos.TestPostModel
+
+<h1>Test POST Handler</h1>
+
+<p>Current ID: @Model.id</p>
+<p>Message: @Model.Message</p>
+
+<form method="post">
+    <input type="hidden" name="id" value="test-123" />
+    <button type="submit">Test Simple POST</button>
+</form>
+
+<hr/>
+
+<form method="post" asp-page-handler="TestHandler">
+    @Html.AntiForgeryToken()
+    <input type="hidden" name="id" value="test-456" />
+    <button type="submit">Test POST with Handler</button>
+</form>
