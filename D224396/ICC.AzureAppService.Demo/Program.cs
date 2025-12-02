@@ -1,53 +1,78 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-
 using ICC.AzureAppService.Demo.Services;
-
+using Microsoft.AspNetCore.Http.Features;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services to the container
+builder.Services.AddRazorPages();
+builder.Services.AddControllers(); // ✅ You have this
+
+// Configure form options for large file uploads
+builder.Services.Configure<FormOptions>(options =>
+{
+    options.MultipartBodyLengthLimit = 524288000; // 500MB
+});
+
 // ✅ Register CosmosDbService as a singleton
 var cosmosConfig = builder.Configuration.GetSection("CosmosDb");
-string account = cosmosConfig["Account"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:Account' is required.");
-string key = cosmosConfig["Key"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:Key' is required.");
-string databaseName = cosmosConfig["DatabaseName"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:DatabaseName' is required.");
-string usersContainer = cosmosConfig["UsersContainer"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:UsersContainer' is required.");
-string videosContainer = cosmosConfig["VideosContainer"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:VideosContainer' is required.");
-string commentsContainer = cosmosConfig["CommentsContainer"] ?? throw new InvalidOperationException("Configuration value 'CosmosDb:CommentsContainer' is required.");
+string account = cosmosConfig["Account"] ?? "";
+string key = cosmosConfig["Key"] ?? "";
+string databaseName = cosmosConfig["DatabaseName"] ?? "videomania";
+string usersContainer = cosmosConfig["UsersContainer"] ?? "Users";
+string videosContainer = cosmosConfig["VideosContainer"] ?? "Videos";
+string commentsContainer = cosmosConfig["CommentsContainer"] ?? "Comments";
 
-try
+if (string.IsNullOrEmpty(account) || string.IsNullOrEmpty(key))
 {
-    builder.Services.AddSingleton(new CosmosDbService(
-        account,
-        key,
-        databaseName,
-        usersContainer,
-        videosContainer,
-        commentsContainer
-    ));
+    Console.WriteLine("Warning: CosmosDb credentials not configured - using null service");
+    builder.Services.AddSingleton<CosmosDbService>(sp => null!);
 }
-catch (Exception ex)
+else
 {
-    Console.WriteLine($"Warning: CosmosDb not available - {ex.Message}");
-    builder.Services.AddSingleton<CosmosDbService>(x => null);
+    try
+    {
+        builder.Services.AddSingleton(new CosmosDbService(
+            account,
+            key,
+            databaseName,
+            usersContainer,
+            videosContainer,
+            commentsContainer
+        ));
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Warning: CosmosDb not available - {ex.Message}");
+        builder.Services.AddSingleton<CosmosDbService>(sp => null!);
+    }
 }
 
 // ✅ Register BlobStorageService as a singleton
 var blobConfig = builder.Configuration.GetSection("BlobStorage");
-string blobConnectionString = blobConfig["ConnectionString"] ?? throw new InvalidOperationException("Blob connection string missing");
+string blobConnectionString = blobConfig["ConnectionString"] ?? "";
 string blobContainerName = blobConfig["ContainerName"] ?? "videos";
 
-try
+if (string.IsNullOrEmpty(blobConnectionString))
 {
-    builder.Services.AddSingleton(new BlobStorageService(blobConnectionString, blobContainerName));
+    Console.WriteLine("Warning: BlobStorage connection string not configured - using null service");
+    builder.Services.AddSingleton<BlobStorageService>(sp => null!);
 }
-catch (Exception ex)
+else
 {
-    Console.WriteLine($"Warning: BlobStorage not available - {ex.Message}");
-    builder.Services.AddSingleton<BlobStorageService>(x => null);
+    try
+    {
+        builder.Services.AddSingleton(new BlobStorageService(blobConnectionString, blobContainerName));
+    }
+    catch (Exception ex)
+    {
+        Console.WriteLine($"Warning: BlobStorage not available - {ex.Message}");
+        builder.Services.AddSingleton<BlobStorageService>(sp => null!);
+    }
 }
 
-// ✅ Add services (including the custom route) BEFORE Build()
+// ✅ Add Razor Pages with custom routes
 builder.Services
     .AddRazorPages()
     .AddRazorPagesOptions(options =>
@@ -56,8 +81,6 @@ builder.Services
         options.Conventions.AddPageRoute("/Architecture", "videomania/architecture");
         options.Conventions.AddPageRoute("/Services", "videomania/services");
     });
-
-
 
 var app = builder.Build();
 
@@ -69,8 +92,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseRouting();
 
+app.UseAuthorization(); // Good to have this for future auth
+
 app.MapRazorPages();
+app.MapControllers(); // ⚠️ THIS WAS MISSING - ADD THIS LINE!
 
 app.Run();

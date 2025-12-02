@@ -17,9 +17,9 @@
             <p>Share your content with the world</p>
         </div>
 
-        <form method="post" enctype="multipart/form-data" id="uploadForm">
-            @Html.AntiForgeryToken()
-            
+        <div id="serverMessage" class="alert" style="display:none;"></div>
+
+        <form id="uploadForm">
             <!-- File Upload Area -->
             <div class="form-group">
                 <label class="file-upload-area" for="VideoFile" id="fileUploadLabel">
@@ -110,16 +110,6 @@
                 <p class="progress-text" id="progressText">Uploading...</p>
             </div>
         </form>
-
-        @if (!string.IsNullOrEmpty(Model.Message))
-        {
-            <div class="alert alert-success">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <polyline points="20 6 9 17 4 12"/>
-                </svg>
-                @Model.Message
-            </div>
-        }
     </section>
 
     <!-- Upload Tips -->
@@ -143,12 +133,26 @@
 
 <script>
     let selectedFile = null;
-    let blobName = null;
-    let uploadSasUri = null;
 
     function handleFileSelect(event) {
         const file = event.target.files[0];
         if (file) {
+            // Validate file size
+            const maxSize = 500 * 1024 * 1024; // 500MB
+            if (file.size > maxSize) {
+                alert('File size exceeds 500MB limit');
+                removeFile();
+                return;
+            }
+
+            // Validate file type
+            const allowedTypes = ['video/mp4', 'video/webm', 'video/avi', 'video/quicktime', 'video/x-matroska'];
+            if (!allowedTypes.includes(file.type) && !file.name.match(/\.(mp4|webm|avi|mov|mkv)$/i)) {
+                alert('Invalid file type. Please upload MP4, WebM, AVI, MOV, or MKV files.');
+                removeFile();
+                return;
+            }
+
             selectedFile = file;
             document.getElementById('uploadPlaceholder').style.display = 'none';
             document.getElementById('filePreview').style.display = 'flex';
@@ -159,8 +163,6 @@
 
     function removeFile() {
         selectedFile = null;
-        blobName = null;
-        uploadSasUri = null;
         document.getElementById('VideoFile').value = '';
         document.getElementById('uploadPlaceholder').style.display = 'block';
         document.getElementById('filePreview').style.display = 'none';
@@ -174,102 +176,126 @@
         return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
     }
 
-    // Get SAS Token from backend
-    async function getSasToken(fileName) {
-        try {
-            const response = await fetch('/api/getuploadSas', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ fileName: fileName })
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                throw new Error(error.error || 'Failed to get SAS token');
-            }
-
-            const data = await response.json();
-            return data;
-        } catch (error) {
-            console.error('Error getting SAS token:', error);
-            throw error;
+    function showMessage(message, isError = false) {
+        const messageDiv = document.getElementById('serverMessage');
+        messageDiv.textContent = message;
+        messageDiv.className = isError ? 'alert alert-error' : 'alert alert-success';
+        messageDiv.style.display = 'block';
+        
+        // Hide after 5 seconds if success
+        if (!isError) {
+            setTimeout(() => {
+                messageDiv.style.display = 'none';
+            }, 5000);
         }
     }
 
-    // Upload file directly to Blob Storage using SAS URI
-    async function uploadToBlob(file, sasUri) {
-        try {
-            const response = await fetch(sasUri, {
-                method: 'PUT',
-                headers: {
-                    'x-ms-blob-type': 'BlockBlob',
-                    'Content-Type': file.type || 'application/octet-stream'
-                },
-                body: file
-            });
-
-            if (!response.ok) {
-                throw new Error(`Upload failed with status ${response.status}`);
-            }
-
-            return true;
-        } catch (error) {
-            console.error('Error uploading to blob:', error);
-            throw error;
-        }
-    }
-
-    // Handle form submission with SAS token flow
+    // Handle form submission
     document.getElementById('uploadForm').addEventListener('submit', async function(e) {
         e.preventDefault();
 
-        const titleInput = document.getElementById('Title');
-        const title = titleInput.value.trim();
+        const title = document.getElementById('Title').value.trim();
+        const description = document.getElementById('Description').value.trim();
 
         if (!title) {
-            alert('Please enter a title');
+            showMessage('Please enter a title', true);
             return;
         }
 
         if (!selectedFile) {
-            alert('Please select a video file');
+            showMessage('Please select a video file', true);
             return;
         }
 
         const uploadBtn = document.getElementById('uploadBtn');
+        const progressDiv = document.getElementById('uploadProgress');
+        const progressFill = document.getElementById('progressFill');
+        const progressText = document.getElementById('progressText');
+
+        // Disable button and show progress
         uploadBtn.disabled = true;
-        document.getElementById('uploadProgress').style.display = 'block';
+        progressDiv.style.display = 'block';
+        progressFill.style.width = '0%';
+        progressText.textContent = 'Preparing upload...';
 
         try {
-            // Step 1: Get SAS token from backend
-            document.getElementById('progressText').textContent = 'Obtaining upload credentials...';
-            const sasData = await getSasToken(selectedFile.name);
-            blobName = sasData.blobName;
-            uploadSasUri = sasData.sasUri;
+            // Create FormData
+            const formData = new FormData();
+            formData.append('Title', title);
+            formData.append('Description', description);
+            formData.append('VideoFile', selectedFile);
 
-            // Step 2: Upload directly to blob storage
-            document.getElementById('progressText').textContent = 'Uploading video to cloud storage...';
-            await uploadToBlob(selectedFile, uploadSasUri);
+            console.log('Uploading to: /api/getuploadSas');
+            console.log('Title:', title);
+            console.log('File:', selectedFile.name, selectedFile.size, 'bytes');
 
-            // Step 3: Submit form to register video metadata in database
-            document.getElementById('progressText').textContent = 'Finalizing upload...';
-            
-            // Create a hidden input to pass blob name to server
-            const input = document.createElement('input');
-            input.type = 'hidden';
-            input.name = 'BlobName';
-            input.value = blobName;
-            this.appendChild(input);
+            // Simulate progress (since we can't track actual upload progress easily)
+            let progress = 0;
+            const progressInterval = setInterval(() => {
+                progress += 5;
+                if (progress <= 90) {
+                    progressFill.style.width = progress + '%';
+                    progressText.textContent = `Uploading... ${progress}%`;
+                }
+            }, 200);
 
-            // Submit to server via regular form POST
-            this.submit();
+            // Upload to server
+            const response = await fetch('/api/getuploadSas', {
+                method: 'POST',
+                body: formData
+            });
+
+            clearInterval(progressInterval);
+
+            console.log('Response status:', response.status);
+            console.log('Response headers:', response.headers);
+
+            // Get response text first to see what we're getting
+            const responseText = await response.text();
+            console.log('Response text:', responseText);
+
+            if (!response.ok) {
+                // Try to parse as JSON for error message
+                let errorMessage = `Upload failed with status ${response.status}`;
+                try {
+                    const errorData = JSON.parse(responseText);
+                    errorMessage = errorData.error || errorMessage;
+                } catch (e) {
+                    // If response is HTML (Razor Page), show that we got the wrong endpoint
+                    if (responseText.includes('<!DOCTYPE') || responseText.includes('<html')) {
+                        errorMessage = 'Server returned HTML instead of JSON. Make sure the API controller is registered correctly.';
+                    } else {
+                        errorMessage = responseText || errorMessage;
+                    }
+                }
+                throw new Error(errorMessage);
+            }
+
+            // Parse successful response
+            const result = JSON.parse(responseText);
+
+            // Complete progress
+            progressFill.style.width = '100%';
+            progressText.textContent = 'Upload complete!';
+
+            // Show success message
+            showMessage(result.message || 'Video uploaded successfully!', false);
+
+            // Reset form after delay
+            setTimeout(() => {
+                window.location.href = '/Videos';
+            }, 2000);
+
         } catch (error) {
-            document.getElementById('uploadProgress').style.display = 'none';
-            uploadBtn.disabled = false;
-            alert('Upload failed: ' + error.message);
             console.error('Upload error:', error);
+            showMessage('Upload failed: ' + error.message, true);
+        } finally {
+            uploadBtn.disabled = false;
+            
+            // Hide progress after a delay
+            setTimeout(() => {
+                progressDiv.style.display = 'none';
+            }, 3000);
         }
     });
 
@@ -300,7 +326,9 @@
     fileUploadArea.addEventListener('drop', function(e) {
         const dt = e.dataTransfer;
         const files = dt.files;
-        document.getElementById('VideoFile').files = files;
-        handleFileSelect({ target: { files: files } });
+        if (files.length > 0) {
+            document.getElementById('VideoFile').files = files;
+            handleFileSelect({ target: { files: files } });
+        }
     }, false);
 </script>

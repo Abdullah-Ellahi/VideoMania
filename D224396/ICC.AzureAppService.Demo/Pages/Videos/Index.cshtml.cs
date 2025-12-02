@@ -6,10 +6,10 @@ namespace ICC.AzureAppService.Demo.Pages.Videos
 {
     public class IndexModel : PageModel
     {
-        private readonly CosmosDbService _cosmosService;
+        private readonly CosmosDbService? _cosmosService;
         public List<Video> Videos { get; set; } = new List<Video>();
 
-        public IndexModel(CosmosDbService cosmosService)
+        public IndexModel(CosmosDbService? cosmosService)
         {
             _cosmosService = cosmosService;
         }

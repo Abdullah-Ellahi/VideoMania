@@ -1,0 +1,65 @@
+# Build results
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+
+# Visual Studio
+.vs/
+.vscode/
+*.sln.docstates
+*.user
+*.userosscache
+*.sln.iml
+
+# Dependencies
+node_modules/
+packages/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+appsettings.Development.json
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+*.swp
+*.swo
+*~
+.idea/
+
+# Logs
+logs/
+*.log
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Build artifacts
+dist/
+publish/
+Release/
+Debug/
+
+# NuGet
+.nuget/
+*.nupkg
+*.snupkg
+
+# .NET
+.dotnet/
+.NET/
+
+# Rider
+.idea/
+*.sln.iml
+
+# Local user files
+launchSettings.json

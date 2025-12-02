@@ -7,8 +7,8 @@ namespace ICC.AzureAppService.Demo.Pages.Videos
 {
     public class DetailsModel : PageModel
     {
-        private readonly CosmosDbService _cosmosService;
-        private readonly BlobStorageService _blobService;
+        private readonly CosmosDbService? _cosmosService;
+        private readonly BlobStorageService? _blobService;
 
         [BindProperty(SupportsGet = true)]
         public string? id { get; set; }
@@ -19,7 +19,7 @@ namespace ICC.AzureAppService.Demo.Pages.Videos
         public Video? Video { get; set; }
         public List<Comment> Comments { get; set; } = new List<Comment>();
 
-        public DetailsModel(CosmosDbService cosmosService, BlobStorageService blobService)
+        public DetailsModel(CosmosDbService? cosmosService, BlobStorageService? blobService)
         {
             _cosmosService = cosmosService;
             _blobService = blobService;

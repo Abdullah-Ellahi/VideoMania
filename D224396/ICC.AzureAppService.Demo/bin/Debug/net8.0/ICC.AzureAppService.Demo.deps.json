@@ -90,27 +90,27 @@
           "runtimes/win-x64/native/Cosmos.CRTCompat.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "2.0.0.0"
+            "fileVersion": "0.0.0.0"
           },
           "runtimes/win-x64/native/Microsoft.Azure.Cosmos.ServiceInterop.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "2.14.0.0"
+            "fileVersion": "0.0.0.0"
           },
           "runtimes/win-x64/native/msvcp140.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "14.41.34123.0"
+            "fileVersion": "0.0.0.0"
           },
           "runtimes/win-x64/native/vcruntime140.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "14.41.34123.0"
+            "fileVersion": "0.0.0.0"
           },
           "runtimes/win-x64/native/vcruntime140_1.dll": {
             "rid": "win-x64",
             "assetType": "native",
-            "fileVersion": "14.41.34123.0"
+            "fileVersion": "0.0.0.0"
           }
         }
       },

@@ -1,1 +1,39 @@
-{"Version":1,"Hash":"HSLcctlCoa9D6UCtYE3QrRyzlDsOsWxoaAFM41OkM8k=","Source":"ICC.AzureAppService.Demo","BasePath":"_content/ICC.AzureAppService.Demo","Mode":"Default","ManifestType":"Build","ReferencedProjectsConfiguration":[],"DiscoveryPatterns":[{"Name":"ICC.AzureAppService.Demo\\wwwroot","Source":"ICC.AzureAppService.Demo","ContentRoot":"C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\wwwroot\\","BasePath":"_content/ICC.AzureAppService.Demo","Pattern":"**"}],"Assets":[{"Identity":"C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\wwwroot\\css\\site.css","SourceId":"ICC.AzureAppService.Demo","SourceType":"Discovered","ContentRoot":"C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\wwwroot\\","BasePath":"_content/ICC.AzureAppService.Demo","RelativePath":"css/site#[.{fingerprint}]?.css","AssetKind":"All","AssetMode":"All","AssetRole":"Primary","AssetMergeBehavior":"","AssetMergeSource":"","RelatedAsset":"","AssetTraitName":"","AssetTraitValue":"","Fingerprint":"nan2jzikpb","Integrity":"b2HOlk2hrvtxoo064L/FUx7Gmb/ZZXK9iFEa6EiZn20=","CopyToOutputDirectory":"Never","CopyToPublishDirectory":"PreserveNewest","OriginalItemSpec":"wwwroot\\css\\site.css","FileLength":18572,"LastWriteTime":"2025-11-29T17:10:27+00:00"}],"Endpoints":[{"Route":"css/site.css","AssetFile":"C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\wwwroot\\css\\site.css","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"18572"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\"b2HOlk2hrvtxoo064L/FUx7Gmb/ZZXK9iFEa6EiZn20=\""},{"Name":"Last-Modified","Value":"Sat, 29 Nov 2025 17:10:27 GMT"},{"Name":"Cache-Control","Value":"no-cache"}],"EndpointProperties":[{"Name":"integrity","Value":"sha256-b2HOlk2hrvtxoo064L/FUx7Gmb/ZZXK9iFEa6EiZn20="}]},{"Route":"css/site.nan2jzikpb.css","AssetFile":"C:\\VideoMania\\D224396\\ICC.AzureAppService.Demo\\wwwroot\\css\\site.css","Selectors":[],"ResponseHeaders":[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Content-Length","Value":"18572"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\"b2HOlk2hrvtxoo064L/FUx7Gmb/ZZXK9iFEa6EiZn20=\""},{"Name":"Last-Modified","Value":"Sat, 29 Nov 2025 17:10:27 GMT"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"}],"EndpointProperties":[{"Name":"fingerprint","Value":"nan2jzikpb"},{"Name":"label","Value":"css/site.css"},{"Name":"integrity","Value":"sha256-b2HOlk2hrvtxoo064L/FUx7Gmb/ZZXK9iFEa6EiZn20="}]}]}
+{
+  "Version": 1,
+  "Hash": "FpAqDs7Y3e3W3DsEIf2/uc+j96OguJ16s+LJCEJiS30=",
+  "Source": "ICC.AzureAppService.Demo",
+  "BasePath": "_content/ICC.AzureAppService.Demo",
+  "Mode": "Default",
+  "ManifestType": "Build",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [
+    {
+      "Name": "ICC.AzureAppService.Demo/wwwroot",
+      "Source": "ICC.AzureAppService.Demo",
+      "ContentRoot": "/Users/asani.io/Documents/abdullah_ellahi/VideoMania/D224396/ICC.AzureAppService.Demo/wwwroot/",
+      "BasePath": "_content/ICC.AzureAppService.Demo",
+      "Pattern": "**"
+    }
+  ],
+  "Assets": [
+    {
+      "Identity": "/Users/asani.io/Documents/abdullah_ellahi/VideoMania/D224396/ICC.AzureAppService.Demo/wwwroot/css/site.css",
+      "SourceId": "ICC.AzureAppService.Demo",
+      "SourceType": "Discovered",
+      "ContentRoot": "/Users/asani.io/Documents/abdullah_ellahi/VideoMania/D224396/ICC.AzureAppService.Demo/wwwroot/",
+      "BasePath": "_content/ICC.AzureAppService.Demo",
+      "RelativePath": "css/site.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot/css/site.css"
+    }
+  ]
+}
