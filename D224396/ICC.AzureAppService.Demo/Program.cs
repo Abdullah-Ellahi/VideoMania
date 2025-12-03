@@ -10,6 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Set `ApplicationInsights:ConnectionString` in appsettings or set
 // the `APPLICATIONINSIGHTS_CONNECTION_STRING` env var in Azure.
 builder.Services.AddApplicationInsightsTelemetry();
+builder.Logging.AddApplicationInsights();
 
 builder.Services.AddRazorPages();
 builder.Services.AddControllers(); // ✅ You have this
